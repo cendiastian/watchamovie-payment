@@ -8,6 +8,8 @@ import (
 type RespInvoice struct {
 	ID            uint      `json:"id"`
 	UserId        uint      `json:"user_id"`
+	FullName      string    `json:"full_name"`
+	Email         string    `json:"email"`
 	Item          string    `json:"item"`
 	Total         int       `json:"total"`
 	PaymentDue    time.Time `json:"payment_due"`
@@ -22,6 +24,8 @@ func ToInvoiceResponse(in invoice.InvoiceCore) RespInvoice {
 	return RespInvoice{
 		ID:            in.Id,
 		UserId:        in.UserId,
+		FullName:      in.FullName,
+		Email:         in.Email,
 		Item:          in.Item,
 		Total:         in.Total,
 		PaymentDue:    in.PaymentDue,
