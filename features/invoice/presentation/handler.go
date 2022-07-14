@@ -32,20 +32,6 @@ func (inHandler *InvoiceHandler) CreateInvoiceHandler(e echo.Context) error {
 
 	return helper.SuccessResponse(e, data)
 }
-
-func (inHandler *InvoiceHandler) UpdateInvoiceHandler(e echo.Context) error {
-	updateData := request.ReqInvoiceUpdate{}
-
-	if err := e.Bind(&updateData); err != nil {
-		return helper.ErrorResponse(e, http.StatusBadRequest, "bad request", err)
-	}
-	data, err := inHandler.invoiceBusiness.UpdateInvoice(updateData.ToInvoiceCore())
-	if err != nil {
-		return helper.ErrorResponse(e, http.StatusInternalServerError, "internal server error", err)
-	}
-	return helper.SuccessResponse(e, data)
-}
-
 func (inHandler *InvoiceHandler) CallbackHandler(e echo.Context) error {
 	var body = map[string]interface{}{}
 	err := e.Bind(&body)

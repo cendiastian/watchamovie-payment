@@ -5,8 +5,7 @@ import "time"
 type InvoiceCore struct {
 	Id            uint
 	UserId        uint
-	ClientNIK     int
-	Phone         string
+	FullName      string
 	Email         string
 	Item          string
 	Total         int
@@ -20,7 +19,6 @@ type InvoiceCore struct {
 
 type Business interface {
 	CreateInvoice(data InvoiceCore) (InvoiceCore, error)
-	UpdateInvoice(data InvoiceCore) (InvoiceCore, error)
 	UpdateTransactionStatus(transactionID int64) error
 }
 

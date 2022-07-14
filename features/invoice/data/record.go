@@ -11,10 +11,12 @@ import (
 type Invoice struct {
 	gorm.Model
 	UserId        uint
+	FullName      string
+	Email         string
 	Item          string
 	Total         int
 	PaymentDue    time.Time
-	PaymentStatus string `gorm:"default:draft"`
+	PaymentStatus string `gorm:"default:unpaid"`
 	PaymentTerms  int
 	PaymentLink   string
 }
@@ -29,6 +31,8 @@ func toInvoiceRecord(in invoice.InvoiceCore) Invoice {
 		},
 		UserId:        in.UserId,
 		Item:          in.Item,
+		FullName:      in.FullName,
+		Email:         in.Email,
 		Total:         in.Total,
 		PaymentDue:    in.PaymentDue,
 		PaymentStatus: in.PaymentStatus,
@@ -43,6 +47,8 @@ func toInvoiceCore(in Invoice) invoice.InvoiceCore {
 		UserId:        in.UserId,
 		Item:          in.Item,
 		Total:         in.Total,
+		FullName:      in.FullName,
+		Email:         in.Email,
 		PaymentDue:    in.PaymentDue,
 		PaymentStatus: in.PaymentStatus,
 		PaymentTerms:  in.PaymentTerms,
