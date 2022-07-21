@@ -1,6 +1,7 @@
 package presentation
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"watchamovie-payment/features/invoice"
@@ -22,6 +23,7 @@ func (inHandler *InvoiceHandler) CreateInvoiceHandler(e echo.Context) error {
 	newInvoice := request.ReqInvoice{}
 
 	if err := e.Bind(&newInvoice); err != nil {
+		fmt.Println(err)
 		return helper.ErrorResponse(e, http.StatusBadRequest, "bad request", err)
 	}
 
@@ -54,4 +56,22 @@ func (inHandler *InvoiceHandler) CallbackHandler(e echo.Context) error {
 		return err
 	}
 	return helper.SuccessResponse(e, nil)
+}
+
+func (inHandler *InvoiceHandler) GetInvoice(e echo.Context) error {
+	Id, err := strconv.Atoi(e.QueryParam("id"))
+	if err != nil {
+		return helper.ErrorResponse(e, http.StatusBadRequest, "bad request", err)
+	}
+
+	UserId := e.QueryParam("user_id")
+	if err != nil {
+		return helper.ErrorResponse(e, http.StatusBadRequest, "bad request", err)
+	}
+
+	data, err := inHandler.invoiceBusiness.GetInvoice(Id, UserId)
+	if err != nil {
+		return err
+	}
+	return helper.SuccessResponse(e, data)
 }

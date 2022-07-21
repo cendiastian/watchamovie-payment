@@ -22,14 +22,15 @@ func NewBusinessInvoice(inData invoice.Data, midtransClient snap.Client, midtran
 
 func (inBusiness *InvoiceBusiness) CreateInvoice(dataReq invoice.InvoiceCore) (invoice.InvoiceCore, error) {
 	t := time.Now()
-	if dataReq.PaymentTerms == 1 {
-		dataReq.PaymentDue = t.Add(time.Hour * 24 * 1)
-	} else if dataReq.PaymentTerms == 7 {
+	fmt.Println(dataReq.PaymentTerms)
+	if dataReq.PaymentTerms == 7 {
 		dataReq.PaymentDue = t.Add(time.Hour * 24 * 7)
 	} else if dataReq.PaymentTerms == 10 {
 		dataReq.PaymentDue = t.Add(time.Hour * 24 * 10)
 	} else if dataReq.PaymentTerms == 30 {
 		dataReq.PaymentDue = t.Add(time.Hour * 24 * 30)
+	} else {
+		dataReq.PaymentDue = t.Add(time.Hour * 24 * 1)
 	}
 
 	data, err := inBusiness.invoiceData.CreateInvoice(dataReq)
@@ -88,4 +89,12 @@ func (inBusiness *InvoiceBusiness) UpdateTransactionStatus(transactionID int64) 
 	}
 
 	return nil
+}
+func (inBusiness *InvoiceBusiness) GetInvoice(Id int, UserId string) (invoice.InvoiceCore, error) {
+	data, err := inBusiness.invoiceData.GetInvoice(Id, UserId)
+	if err != nil {
+		return invoice.InvoiceCore{}, err
+	}
+
+	return data, nil
 }
