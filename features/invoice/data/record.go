@@ -10,12 +10,13 @@ import (
 
 type Invoice struct {
 	gorm.Model
-	UserId        uint
+	UserId        string
 	FullName      string
 	Email         string
 	Item          string
 	Total         int
 	PaymentDue    time.Time
+	Expired       int
 	PaymentStatus string `gorm:"default:unpaid"`
 	PaymentTerms  int
 	PaymentLink   string
@@ -35,6 +36,7 @@ func toInvoiceRecord(in invoice.InvoiceCore) Invoice {
 		Email:         in.Email,
 		Total:         in.Total,
 		PaymentDue:    in.PaymentDue,
+		Expired:       in.Expired,
 		PaymentStatus: in.PaymentStatus,
 		PaymentTerms:  in.PaymentTerms,
 		PaymentLink:   in.PaymentLink,
@@ -49,6 +51,7 @@ func toInvoiceCore(in Invoice) invoice.InvoiceCore {
 		Total:         in.Total,
 		FullName:      in.FullName,
 		Email:         in.Email,
+		Expired:       in.Expired,
 		PaymentDue:    in.PaymentDue,
 		PaymentStatus: in.PaymentStatus,
 		PaymentTerms:  in.PaymentTerms,
@@ -56,13 +59,4 @@ func toInvoiceCore(in Invoice) invoice.InvoiceCore {
 		UpdatedAt:     in.UpdatedAt,
 		PaymentLink:   in.PaymentLink,
 	}
-}
-
-func toInvoiceCoreList(inList []Invoice) []invoice.InvoiceCore {
-	convIn := []invoice.InvoiceCore{}
-
-	for _, invoice := range inList {
-		convIn = append(convIn, toInvoiceCore(invoice))
-	}
-	return convIn
 }
