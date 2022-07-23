@@ -12,8 +12,7 @@ FROM alpine:3.14
 WORKDIR /app
 COPY --from=builder /app/main .
 COPY app.env /app
-COPY --from=builder /app/helper/email_templates/ ./helper/email_templates/
 
 EXPOSE 8000
 
-CMD [ "./main" ]
+CMD [ "go run main.go SERVER" ]

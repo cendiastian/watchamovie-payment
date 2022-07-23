@@ -1,6 +1,7 @@
 package data
 
 import (
+	"errors"
 	"fmt"
 	"watchamovie-payment/features/invoice"
 
@@ -20,6 +21,17 @@ func (inData *InvoiceData) CreateInvoice(data invoice.InvoiceCore) (invoice.Invo
 
 	if err := inData.DB.Create(&convData).Error; err != nil {
 		return invoice.InvoiceCore{}, err
+	}
+	return toInvoiceCore(convData), nil
+}
+func (inData *InvoiceData) GetInvoice(Id int, UserId string) (invoice.InvoiceCore, error) {
+	var convData Invoice
+
+	if err := inData.DB.First(&convData, "ID= ?", Id).Error; err != nil {
+		return invoice.InvoiceCore{}, err
+	}
+	if convData.UserId != UserId {
+		return invoice.InvoiceCore{}, errors.New("UserId is different")
 	}
 	return toInvoiceCore(convData), nil
 }
