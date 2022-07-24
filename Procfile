@@ -1,1 +1,1 @@
-web: bin/watchamovie-payment
+web: go run main.go SERVER
