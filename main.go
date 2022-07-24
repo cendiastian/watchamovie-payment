@@ -25,7 +25,7 @@ func main() {
 	if paramsLength < 2 {
 		log.Println("Please add SERVER or CRONJOB along with go run main.go command")
 		log.Println("SERVER or CRONJOB not found")
-		e.Start(":8000")
+		e.Start(os.Getenv("PORT"))
 	}
 	if paramsLength > 1 {
 		inputMethod := os.Args[1]
@@ -33,7 +33,7 @@ func main() {
 		if valid {
 			if inputMethod == "SERVER" {
 				// Starting The Server
-				e.Start(":8000")
+				e.Start(os.Getenv("PORT"))
 			}
 		}
 
