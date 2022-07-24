@@ -17,24 +17,24 @@ func init() {
 func main() {
 	params := os.Args
 	paramsLength := len(params)
-	if paramsLength < 2 {
-		log.Println("Please add SERVER or CRONJOB along with go run main.go command")
-		log.Println("Eg: go run main.go SERVER or go run main.go CRONJOB")
-		os.Exit(1)
-	}
-
-	inputMethod := os.Args[1]
-	valid := IsValidInputMethod(inputMethod)
-
 	driver.InitDB()
 	e := routes.New()
 
 	// Log Middleware
 	_middleware.LogMiddlewareInit(e)
-	if valid {
-		if inputMethod == "SERVER" {
-			// Starting The Server
-			e.Start(":8000")
+	if paramsLength < 2 {
+		log.Println("Please add SERVER or CRONJOB along with go run main.go command")
+		log.Println("SERVER or CRONJOB not found")
+		e.Start(":8000")
+	}
+	if paramsLength > 1 {
+		inputMethod := os.Args[1]
+		valid := IsValidInputMethod(inputMethod)
+		if valid {
+			if inputMethod == "SERVER" {
+				// Starting The Server
+				e.Start(":8000")
+			}
 		}
 
 		// if inputMethod == "CRONJOB" {
