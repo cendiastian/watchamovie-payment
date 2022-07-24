@@ -15,6 +15,11 @@ func init() {
 }
 
 func main() {
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
 	params := os.Args
 	paramsLength := len(params)
 	driver.InitDB()
@@ -25,7 +30,7 @@ func main() {
 	if paramsLength < 2 {
 		log.Println("Please add SERVER or CRONJOB along with go run main.go command")
 		log.Println("SERVER or CRONJOB not found")
-		e.Start(os.Getenv("PORT"))
+		e.Start(port)
 	}
 	if paramsLength > 1 {
 		inputMethod := os.Args[1]
@@ -33,7 +38,7 @@ func main() {
 		if valid {
 			if inputMethod == "SERVER" {
 				// Starting The Server
-				e.Start(os.Getenv("PORT"))
+				e.Start(port)
 			}
 		}
 
